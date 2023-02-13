@@ -3,6 +3,7 @@ using BL.DTO;
 using BL.Interfaces;
 using BL.Repositories;
 using DAL.Contacts;
+using Esprima.Ast;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
@@ -11,20 +12,20 @@ namespace BL.Services
     /// <summary>
     ///     Contract implementation
     /// </summary>
-    public class ContactosService : IService
+    public class ContactService : IService
     {
         #region Private properties, Constructor and implementations
         private readonly DAL.Context _cntx;
-        private readonly ContactosRepository _repo;
+        private readonly ContactRepository _repo;
         private readonly IDbConnection _conn;
         public IServiceRequest Request { get; set; }
         public ServiceResponse Response {get; set;}
         
-        public ContactosService(IServiceRequest request, DAL.Context context, IDbConnection connection) 
+        public ContactService(IServiceRequest request, DAL.Context context, IDbConnection connection) 
         {
             _cntx    = context;
             _conn    = connection;
-            _repo    = new ContactosRepository(context, _conn);
+            _repo    = new ContactRepository(context, _conn);
             Request  = request;
             Response = new ServiceResponse() { Input = request, Output = new OutputResponse() };
         }
@@ -78,9 +79,11 @@ namespace BL.Services
             {
                 switch (Request.Operation)
                 {
-                    case ServiceOperations.GET: await Get(); break;
-                    default:
-                        break;
+                    case ServiceOperations.GET:    await Get(); break;
+                    case ServiceOperations.ADD:    await Add(); break;
+                    case ServiceOperations.DELETE: await Delete(); break;
+                    case ServiceOperations.UPDATE: await Update(); break;
+                    default: throw new ArgumentException(nameof(Request.Operation));
                 }
             }
             catch (Exception ex)

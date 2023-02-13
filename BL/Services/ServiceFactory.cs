@@ -24,7 +24,8 @@ namespace BL.Services
         {
             IService? service = request.Command switch
             {
-                "Contacts" => new ContactosService(request, context, connection),
+                ServicesEnum.Contactos => new ContactService(request, context, connection),
+                ServicesEnum.Address => throw new NotImplementedException("Address service not exists"),
                 _ => null,
             };
             return service;

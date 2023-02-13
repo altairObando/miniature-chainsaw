@@ -8,17 +8,19 @@ namespace ApiCore.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly IServiceFactory serviceFactory;
-        private readonly ILogger<ServiceController> _logger;
+        private readonly ILogger<BL.DTO.ServiceRequest> _logger;
 
-        public ServiceController(ILogger<ServiceController> logger, IServiceFactory factory)
+        public ServiceController(ILogger<BL.DTO.ServiceRequest> logger, IServiceFactory factory)
         {
             _logger = logger;
             serviceFactory = factory;
+            _logger.BeginScope($"");
         }
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("ONLY POST METHODS ");
+            _logger.Log(LogLevel.Information, message: $"Connected");
+            return Ok("ONLY POST METHODS");
         }
         [HttpPost]
         public IServiceResponse Execute([FromBody]BL.DTO.ServiceRequest request) 

@@ -18,6 +18,6 @@ namespace BL.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        IServiceResponse ExecuteRequest(ServiceRequest request);
+        Task<IServiceResponse> ExecuteRequest(ServiceRequest request);
     }
 }

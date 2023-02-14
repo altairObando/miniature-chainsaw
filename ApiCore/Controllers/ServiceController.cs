@@ -23,7 +23,7 @@ namespace ApiCore.Controllers
             return Ok("ONLY POST METHODS");
         }
         [HttpPost]
-        public IServiceResponse Execute([FromBody]BL.DTO.ServiceRequest request) 
-            => serviceFactory.ExecuteRequest(request);
+        public async Task<IServiceResponse> Execute([FromBody]BL.DTO.ServiceRequest request) 
+            => await serviceFactory.ExecuteRequest(request);
     }
 }

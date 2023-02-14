@@ -48,12 +48,12 @@ namespace BL.Services
         }
 
         ///<inheritdoc/>
-        public IServiceResponse ExecuteRequest(ServiceRequest request)
+        public async Task<IServiceResponse> ExecuteRequest(ServiceRequest request)
         {
             var service = GetService(request);
             if(service == null) 
                 throw new NullReferenceException(nameof(request.Command));
-            service.Execute();
+            await service.Execute();
             return service.Response;
         }
         // To detect redundant calls

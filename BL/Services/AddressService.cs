@@ -1,32 +1,26 @@
-﻿using Azure;
-using BL.DTO;
+﻿using BL.DTO;
 using BL.Interfaces;
 using BL.Repositories;
 using DAL.Contacts;
-using Esprima.Ast;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace BL.Services
 {
-    /// <summary>
-    ///     Contract implementation
-    /// </summary>
-    public class ContactService : IServices
+    public class AddressService : IServices
     {
         #region Private properties, Constructor and implementations
         private readonly DAL.Context _cntx;
-        private readonly ContactRepository _repo;
+        private readonly AddressRepository _repo;
         private readonly IDbConnection _conn;
         public IServiceRequest Request { get; set; }
-        public ServiceResponse Response {get; set;}
-        
-        public ContactService(IServiceRequest request, DAL.Context context, IDbConnection connection) 
+        public ServiceResponse Response { get; set; }
+
+        public AddressService(IServiceRequest request, DAL.Context context, IDbConnection connection)
         {
-            _cntx    = context;
-            _conn    = connection;
-            _repo    = new ContactRepository(context, _conn);
-            Request  = request;
+            _cntx = context;
+            _conn = connection;
+            _repo = new AddressRepository(context, _conn);
+            Request = request;
             Response = new ServiceResponse() { Input = request, Output = new OutputResponse() };
         }
         #endregion
@@ -40,7 +34,7 @@ namespace BL.Services
         /// <inheritdoc/>
         public async Task Add()
         {
-            if(string.IsNullOrEmpty(Request.Entity))
+            if (string.IsNullOrEmpty(Request.Entity))
                 throw new NullReferenceException(nameof(Contact));
 
             var entity = _repo.GetEntityFromJson(Request.Entity);
@@ -56,7 +50,7 @@ namespace BL.Services
 
             var entity = _repo.GetEntityFromJson(Request.Entity);
             var newEntity = await _repo.Update(entity);
-            
+
             Response.Output.StatusDescription = "Updated";
             Response.Output.Results.Add(newEntity);
         }
@@ -64,7 +58,7 @@ namespace BL.Services
         public async Task Delete()
         {
             if (string.IsNullOrEmpty(Request.Entity))
-                throw new NullReferenceException(nameof(Contact));
+                throw new NullReferenceException(nameof(Address));
 
             var entity = _repo.GetEntityFromJson(Request.Entity);
             var newEntity = await _repo.Delete(entity);
@@ -79,8 +73,8 @@ namespace BL.Services
             {
                 switch (Request.Operation)
                 {
-                    case ServiceOperations.GET:    await Get(); break;
-                    case ServiceOperations.ADD:    await Add(); break;
+                    case ServiceOperations.GET: await Get(); break;
+                    case ServiceOperations.ADD: await Add(); break;
                     case ServiceOperations.DELETE: await Delete(); break;
                     case ServiceOperations.UPDATE: await Update(); break;
                     default: throw new ArgumentException(nameof(Request.Operation));
@@ -94,10 +88,10 @@ namespace BL.Services
             }
         }
         /// <inheritdoc/>
-        public void AddResult(IEnumerable<Contact> data)
-        {            
+        public void AddResult(IEnumerable<Address> data)
+        {
             foreach (var contact in data)
                 Response.Output.Results.Add(contact);
-        }        
+        }
     }
 }

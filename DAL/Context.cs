@@ -10,7 +10,7 @@ namespace DAL
         public string ConnectionString { get; set; }
 
         public Context( string connection) { 
-            ConnectionString = connection; 
+            ConnectionString = connection;
         }
         public Context() { }
         public Context(DbContextOptions<Context> options) : base(options) { }

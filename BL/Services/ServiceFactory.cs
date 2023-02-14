@@ -9,6 +9,7 @@ namespace BL.Services
 {
     public class ServiceFactory: IServiceFactory, IDisposable
     {
+        const string CATALOG = "Catalog";
         #region fields and constructor
         private readonly DAL.Context context;
         private readonly IDbConnection connection;
@@ -20,15 +21,30 @@ namespace BL.Services
         }
         #endregion
         ///<inheritdoc/>
-        public IService? GetService(ServiceRequest request)
+        public IServices? GetService(ServiceRequest request)
         {
-            IService? service = request.Command switch
+            if(string.IsNullOrEmpty(request.Command))
+                throw new ArgumentNullException(nameof(request));
+
+            if (request.Command.Contains(CATALOG))
+            {
+                var serviceName = request.Command.Replace(CATALOG, string.Empty).Trim();
+                return serviceName switch
+                {
+                    ServicesEnum.Cities  => new CityService(request, context, connection),
+                    ServicesEnum.Country => new CountryService(request, context, connection),
+                    ServicesEnum.Region  => new RegionService(request, context, connection),
+                    ServicesEnum.State   => new StateService(request, context, connection),
+                    _ => null
+                };
+            }
+
+            return request.Command switch
             {
                 ServicesEnum.Contactos => new ContactService(request, context, connection),
-                ServicesEnum.Address => throw new NotImplementedException("Address service not exists"),
+                ServicesEnum.Address => new AddressService(request, context, connection),
                 _ => null,
             };
-            return service;
         }
 
         ///<inheritdoc/>

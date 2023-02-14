@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using static Dapper.SqlMapper;
 
 namespace BL.Repositories
 {
@@ -10,16 +11,16 @@ namespace BL.Repositories
         {
             repository = new BaseRepository<ICatalog>(context, con);
         }
-        public async Task Add(ICatalog entity) 
+        public async Task<ICatalog> Add(ICatalog entity) 
             => await repository.Add(entity);
 
-        public async Task Delete(int id) 
+        public async Task<ICatalog> Delete(int id) 
             => await repository.Delete(id);
 
-        public async Task Delete(ICatalog entity) 
+        public async Task<ICatalog> Delete(ICatalog entity) 
             => await repository.Delete(entity);
 
-        public async Task<IEnumerable<ICatalog>> GetAllAsync(string fields, string filter) 
+        public async Task<IEnumerable<ICatalog>> GetAll(string fields, string filter) 
             => await repository.GetAll(fields, filter);
 
         public async Task<ICatalog?> GetByIdAsync(int id)
@@ -28,8 +29,14 @@ namespace BL.Repositories
         public async Task Save() 
             => await repository.Save();
 
-        public async Task Update(ICatalog entity) 
+        public async Task<ICatalog> Update (ICatalog entity) 
             => await repository.Update(entity);
-
+        public ICatalog GetEntityFromJson(string json)
+        {
+            var entity = Newtonsoft.Json.JsonConvert.DeserializeObject<ICatalog>(json ?? "{}");
+            if (entity == null)
+                throw new NoNullAllowedException("Entity cant be null");
+            return entity;
+        }
     }
 }

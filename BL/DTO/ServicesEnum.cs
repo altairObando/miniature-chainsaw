@@ -9,6 +9,10 @@
         /// <summary>
         ///     Address Service
         /// </summary>
-        public const string Address   = "AddressSrv";
+        public const string Address = "AddressSrv";
+        public const string Cities  = "CitySrv";
+        public const string Country = "CountrySrv";
+        public const string Region  = "RegionSrv";
+        public const string State   = "StateSrv";
     }
 }

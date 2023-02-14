@@ -12,7 +12,7 @@ namespace BL.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        IService? GetService(ServiceRequest request);
+        IServices? GetService(ServiceRequest request);
         /// <summary>
         ///     Execute a request
         /// </summary>

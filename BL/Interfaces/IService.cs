@@ -5,7 +5,7 @@ namespace BL.Interfaces
     /// <summary>
     ///     Define el comportamiento de un servicio
     /// </summary>
-    public interface IService
+    public interface IServices
     {
         /// <summary>
         ///     Server request

@@ -53,7 +53,7 @@ namespace BL.Services
         {
             var service = GetService(request);
             if(service == null) 
-                throw new NullReferenceException(nameof(request.Command));
+                throw new NullReferenceException($"Command : { request.Command } not exists");
             await service.Execute();
             return service.Response;
         }

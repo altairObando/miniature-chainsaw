@@ -28,11 +28,14 @@ namespace ApiCore.Controllers
         {
             try
             {
-                return await serviceFactory.ExecuteRequest(request);
+                _logger.Log(LogLevel.Information, message: Newtonsoft.Json.JsonConvert.SerializeObject(request));
+                var result = await serviceFactory.ExecuteRequest(request);
+                _logger.Log(LogLevel.Information, message: Newtonsoft.Json.JsonConvert.SerializeObject(result));
+                return result;
             }
             catch (Exception ex)
             {
-                return new ServiceResponse()
+                var error = new ServiceResponse()
                 {
                     Input = request,
                     Output = new OutputResponse() 
@@ -41,6 +44,8 @@ namespace ApiCore.Controllers
                         StatusDescription = ex.Message
                     }
                 };
+                _logger.LogError(Newtonsoft.Json.JsonConvert.SerializeObject(error));
+                return error;
             }
         }
     }

@@ -27,7 +27,7 @@ namespace BL.Services
         /// <inheritdoc/>
         public async Task Get()
         {
-            var data = await _repo.GetAll(Request.Fields ?? string.Empty, Request.Filter ?? string.Empty);
+            var data = await _repo.GetAll(Request.Fields ?? string.Empty, Request.Filter ?? string.Empty, nameof(Address));
             AddResult(data);
             return;
         }

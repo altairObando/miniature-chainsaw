@@ -13,12 +13,12 @@ namespace BL.Services
         private readonly CatalogRepository<State> _repo;
         private readonly IDbConnection _conn;
         public IServiceRequest Request { get; set; }
-        public StateService(IServiceRequest request, Context context, IDbConnection connection)
+        public StateService(IServiceRequest request, Context context, IDbConnection connection, string name)
         {
 
             _conn = connection;
             _cntx = context;
-            _repo = new CatalogRepository<State>(_cntx, _conn);
+            _repo = new CatalogRepository<State>(_cntx, _conn, name);
             Request = request;
             Response = new ServiceResponse() { Input = request, Output = new OutputResponse() };
 

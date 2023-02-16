@@ -7,9 +7,11 @@ namespace BL.Repositories
     public class CatalogRepository<ICatalog> where ICatalog : class
     {
         private readonly BaseRepository<ICatalog> repository;
-        public CatalogRepository(DAL.Context context, IDbConnection con)
+        private readonly string CatalogName;
+        public CatalogRepository(DAL.Context context, IDbConnection con, string CatalogName)
         {
             repository = new BaseRepository<ICatalog>(context, con);
+            this.CatalogName = CatalogName;
         }
         public async Task<ICatalog> Add(ICatalog entity) 
             => await repository.Add(entity);
@@ -21,7 +23,7 @@ namespace BL.Repositories
             => await repository.Delete(entity);
 
         public async Task<IEnumerable<ICatalog>> GetAll(string fields, string filter) 
-            => await repository.GetAll(fields, filter);
+            => await repository.GetAll(fields, filter, CatalogName);
 
         public async Task<ICatalog?> GetByIdAsync(int id)
             => await repository.GetById(id);

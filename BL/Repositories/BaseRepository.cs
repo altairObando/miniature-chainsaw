@@ -27,10 +27,10 @@ namespace BL.Repositories
         /// <inheritdoc/>
         public async Task<TEntity?> GetById(int id) => await GetDbSet().FindAsync(id);
         /// <inheritdoc/>
-        public async Task<IEnumerable<TEntity>> GetAll(string fields, string filter)
+        public async Task<IEnumerable<TEntity>> GetAll(string fields, string filter, string tableName)
         {
             var query = $" SELECT {(string.IsNullOrEmpty(fields) ? "*" : fields)} " +
-                        $" FROM   {nameof(TEntity)} " +
+                        $" FROM   { tableName } " +
                         $" {(string.IsNullOrEmpty(filter) ? string.Empty : $" WHERE {filter}")}";
             query = query.Trim();
             return await _dbConn.QueryAsync<TEntity>(query);

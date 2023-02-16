@@ -16,7 +16,15 @@ builder.Services.AddDbContext<DAL.Context>( config =>
 {
     config.UseSqlServer(builder.Configuration.GetConnectionString("CoreContext"));
 });
+const string All = "*";
+builder.Services.AddCors( options =>
+{
+    options.AddPolicy(All, pol => { pol.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();  });
+});
+
+
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -24,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(All);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

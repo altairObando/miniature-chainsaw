@@ -20,7 +20,7 @@ namespace BL.Interfaces
         /// <param name="fields"></param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetAll(string fields, string filter);
+        Task<IEnumerable<TEntity>> GetAll(string fields, string filter, string tableName);
         /// <summary>
         ///     Attach and save new entity
         /// </summary>

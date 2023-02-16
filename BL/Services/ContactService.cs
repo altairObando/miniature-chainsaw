@@ -1,5 +1,6 @@
 ﻿using Azure;
 using BL.DTO;
+using BL.DTO.Contacts;
 using BL.Interfaces;
 using BL.Repositories;
 using DAL.Contacts;
@@ -33,7 +34,7 @@ namespace BL.Services
         /// <inheritdoc/>
         public async Task Get()
         {
-            var data = await _repo.GetAll(Request.Fields ?? string.Empty, Request.Filter ?? string.Empty);
+            var data = await _repo.GetAll(Request.Fields ?? string.Empty, Request.Filter ?? string.Empty, nameof(Contact));
             AddResult(data);
             return;
         }
@@ -45,8 +46,7 @@ namespace BL.Services
 
             var entity = _repo.GetEntityFromJson(Request.Entity);
             var newEntity = await _repo.Add(entity);
-
-            Response.Output.Results.Add(newEntity);
+            AddResult(newEntity);
         }
         /// <inheritdoc/>
         public async Task Update()
@@ -58,7 +58,7 @@ namespace BL.Services
             var newEntity = await _repo.Update(entity);
             
             Response.Output.StatusDescription = "Updated";
-            Response.Output.Results.Add(newEntity);
+            AddResult(newEntity);
         }
         /// <inheritdoc/>
         public async Task Delete()
@@ -68,9 +68,9 @@ namespace BL.Services
 
             var entity = _repo.GetEntityFromJson(Request.Entity);
             var newEntity = await _repo.Delete(entity);
-
+            
             Response.Output.StatusDescription = "Removed";
-            Response.Output.Results.Add(newEntity);
+            AddResult(newEntity);
         }
         /// <inheritdoc/>
         public async Task Execute()
@@ -89,7 +89,7 @@ namespace BL.Services
             catch (Exception ex)
             {
                 Response.Output.Status = "Error";
-                Response.Output.StatusDescription = ex.Message;
+                Response.Output.StatusDescription = ex?.InnerException?.Message ?? ex?.Message ?? string.Empty;
 
             }
         }
@@ -97,7 +97,9 @@ namespace BL.Services
         public void AddResult(IEnumerable<Contact> data)
         {            
             foreach (var contact in data)
-                Response.Output.Results.Add(contact);
+                Response.Output.Results.Add(Mapper.ObjectMapper.Mapper.Map<Contact, ContactDto>(contact));
         }        
+        public void AddResult(Contact data) 
+            => Response.Output.Results.Add(Mapper.ObjectMapper.Mapper.Map<Contact, ContactDto>(data));
     }
 }

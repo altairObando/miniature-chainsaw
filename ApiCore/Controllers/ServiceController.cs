@@ -1,3 +1,4 @@
+using BL.DTO;
 using BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,24 @@ namespace ApiCore.Controllers
             return Ok("ONLY POST METHODS");
         }
         [HttpPost]
-        public async Task<IServiceResponse> Execute([FromBody]BL.DTO.ServiceRequest request) 
-            => await serviceFactory.ExecuteRequest(request);
+        public async Task<IServiceResponse> Execute([FromBody]BL.DTO.ServiceRequest request)
+        {
+            try
+            {
+                return await serviceFactory.ExecuteRequest(request);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse()
+                {
+                    Input = request,
+                    Output = new OutputResponse() 
+                    {
+                        Status = "Failure",
+                        StatusDescription = ex.Message
+                    }
+                };
+            }
+        }
     }
 }

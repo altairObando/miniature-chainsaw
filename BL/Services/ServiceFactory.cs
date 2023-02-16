@@ -1,5 +1,6 @@
 ﻿using BL.DTO;
 using BL.Interfaces;
+using DAL.Catalogs;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -31,10 +32,10 @@ namespace BL.Services
                 var serviceName = request.Command.Replace(CATALOG, string.Empty).Trim();
                 return serviceName switch
                 {
-                    ServicesEnum.Cities  => new CityService(request, context, connection),
-                    ServicesEnum.Country => new CountryService(request, context, connection),
-                    ServicesEnum.Region  => new RegionService(request, context, connection),
-                    ServicesEnum.State   => new StateService(request, context, connection),
+                    ServicesEnum.Cities  => new CityService(request, context, connection, nameof(City)),
+                    ServicesEnum.Country => new CountryService(request, context, connection, nameof(Country)),
+                    ServicesEnum.Region  => new RegionService(request, context, connection, nameof(Region)),
+                    ServicesEnum.State   => new StateService(request, context, connection, nameof(State)),
                     _ => null
                 };
             }

@@ -4,7 +4,7 @@ using System.Data;
 namespace BL.Repositories
 {
     /// <summary>
-    ///     Contact repository
+    ///     ContactDto repository
     /// </summary>
     public class ContactRepository : BaseRepository<Contact>
     {

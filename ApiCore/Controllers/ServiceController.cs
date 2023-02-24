@@ -9,9 +9,9 @@ namespace ApiCore.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly IServiceFactory serviceFactory;
-        private readonly ILogger<BL.DTO.ServiceRequest> _logger;
+        private readonly ILogger<ServiceRequest> _logger;
 
-        public ServiceController(ILogger<BL.DTO.ServiceRequest> logger, IServiceFactory factory)
+        public ServiceController(ILogger<ServiceRequest> logger, IServiceFactory factory)
         {
             _logger = logger;
             serviceFactory = factory;
@@ -24,7 +24,7 @@ namespace ApiCore.Controllers
             return Ok("ONLY POST METHODS");
         }
         [HttpPost]
-        public async Task<IServiceResponse> Execute([FromBody]BL.DTO.ServiceRequest request)
+        public async Task<IServiceResponse> Execute([FromBody] ServiceRequest request)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace ApiCore.Controllers
                 var error = new ServiceResponse()
                 {
                     Input = request,
-                    Output = new OutputResponse() 
+                    Output = new OutputResponse()
                     {
                         Status = "Failure",
                         StatusDescription = ex.Message

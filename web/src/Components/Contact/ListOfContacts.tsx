@@ -15,6 +15,12 @@ const listColumns : ColumnsType<IContactDto> = [
         render: (id) => <a> { id }</a>
     },
     {
+        key: 'nif',
+        title: 'NIF',
+        dataIndex: 'nif',
+        render: (id) => <a> { id }</a>
+    },
+    {
         key: 'name',
         title: 'Name',
         dataIndex: 'name'
@@ -65,8 +71,6 @@ const listColumns : ColumnsType<IContactDto> = [
     }
 ]
 
-
-
 export const ListOfContacts : React.FC<ISearch> = (props)=>{
     const [ contacts, isLoading ] = useContact(props);
     return contacts.length == 0 ?
@@ -75,6 +79,7 @@ export const ListOfContacts : React.FC<ISearch> = (props)=>{
         columns={ listColumns } 
         dataSource={ contacts  } 
         loading={ isLoading }
+        rowKey='id'
     />
     
 }

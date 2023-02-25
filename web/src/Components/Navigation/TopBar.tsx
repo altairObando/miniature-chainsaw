@@ -15,7 +15,7 @@ export const CustomTopBar : React.FC<IChangeTheme> = ( props )=>{
                 <Link to='/'>                
                     <Avatar src={ logo } />
                 </Link>
-                <span>Web Example </span>
+                <span>Web Core </span>
             </Space>
 
         </Col>

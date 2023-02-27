@@ -7,13 +7,14 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 
 const buildItem = ( label: React.ReactNode, key?: React.Key | null, icon?: React.ReactNode, children?: MenuItem[], type?: 'group' ): MenuItem =>{
-    return { key, icon, children, label, type } as MenuItem
+    const id = key;
+    return { key, icon, children, label, type, id } as MenuItem
 }
 
 export const MenuItems : MenuItem[] = [
     buildItem('Contacts', 'contactsMenu', <UserOutlined />, [
-        buildItem(<Link to='Contacts'> Contact List </Link>, '1', <SearchOutlined />),
-        buildItem(<Link to='test/Option2'> New Contact </Link>, '2', <UserAddOutlined/>)
+        buildItem(<Link to='Contacts'> Contact List </Link>, 'menuContactsIndex', <SearchOutlined /> ),
+        buildItem(<Link to='Contacts/addOrUpdate'> New Contact </Link>, 'menuContactsForm', <UserAddOutlined/>)
     ]),
     buildItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
         buildItem('Option5', '5'),

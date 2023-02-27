@@ -2,7 +2,9 @@
 import { ConfigProvider } from 'antd'
 import { RouterProvider } from 'react-router-dom';
 import { Router } from './router';
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
+import './assets/devStyles.css';
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   //  <React.StrictMode>

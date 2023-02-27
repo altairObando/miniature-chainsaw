@@ -1,23 +1,12 @@
-import { Avatar, Card, Row, Col } from 'antd';
+import { Avatar, Card, Row, Col, Space, Button } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons'
 import { IPageHeader } from '../../Interfaces/Pages/IPageHeader';
-
+import { CustomBreadcrumb } from './CustomBreadcrumb';
 
 
 const styles = {
     container:{
-        margin: '1rem', 
-        height: '6rem'
-    },
-    titulo: {
-        fontSize : '1.2rem'
-    },
-    subTitulo: {
-        fontSize: '1rem'
-    },
-    crudActions: {
-        display:'flex', 
-        justifyContent: 'flex-end'
+        height: '7rem'
     }
 }
 
@@ -25,22 +14,29 @@ export const PageHeader: React.FC<IPageHeader> = (props) =>{
     return <Card style={ styles.container }>
         <Row>
             <Col span={ 1 }>
-                <Avatar icon={  props.icon ||  <AntDesignOutlined /> } size="large"  />
+                <Space>
+                    <Avatar icon={  props.icon ||  <AntDesignOutlined /> } size="large"  />
+                    <span className='titulo'><strong> { props.title } </strong> </span>
+                </Space>
             </Col>
             <Col span={8}>
-                <Row> <span style={styles.titulo}><strong> { props.title } </strong> </span> </Row>
-                <Row><span style={styles.subTitulo}> { props.subTitle } </span></Row>
+                <span className='titulo'><strong> { props.subTitle } </strong> </span>
             </Col>
             <Col span={8}>
                 {
                     props.bpmActions
                 }
             </Col>
-            <Col span={7} style={ styles.crudActions }>
-                {
-                    props.actions
-                }
+            <Col span={7} className='crudActions'>
+                <Space>
+                    {
+                        props.actions
+                    }
+                </Space>
             </Col>
+        </Row>
+        <Row>
+            <CustomBreadcrumb />
         </Row>
     </Card>
 }

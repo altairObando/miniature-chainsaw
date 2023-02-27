@@ -12,9 +12,13 @@ const genders = [
 
 export const FilterForm : React.FC<ICallBack> = (props) =>{
     const [ form ] = Form.useForm();
-    const [ gender, setGender] = useState('')
-    const onResetClick = () => form.resetFields();
+    const [ gender, setGender] = useState('');
     const { Item } = Form;
+
+    const onResetClick = () => {
+        form.resetFields();
+        onSearchClick();
+    };
     
     const onChangeGender = ({ target: { value } }: RadioChangeEvent) => {
         setGender(value);
@@ -28,10 +32,11 @@ export const FilterForm : React.FC<ICallBack> = (props) =>{
 
     const buildQuerParams = () => {
         let formValues  = form.getFieldsValue();
+        formValues['middleName'] = formValues.name;
         let q = Object.keys(formValues)
               .filter( key => typeof formValues[key] !== 'undefined' && formValues[key] )
               .map( key => key === 'birth' ?  `${ key } = '${ GetISODate(formValues[key]) }'` : `${ key } = '${ formValues[key] }'`)
-              .join(' AND ');
+              .join(' OR ');
 
         return q;
     }

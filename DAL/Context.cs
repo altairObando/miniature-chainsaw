@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL.Catalogs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
@@ -16,6 +17,11 @@ namespace DAL
         public Context(DbContextOptions<Context> options) : base(options) { }
         public DbSet<Contacts.Contact> Contact { get; set; }
         public DbSet<Contacts.Address> Address { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<Region> Region { get; set; }
+        public DbSet<State> State { get; set; }
+        public DbSet<MaritalStatus> MaritalStatus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -22,7 +22,7 @@ export const FilterForm : React.FC<ICallBack> = (props) =>{
     
     const onChangeGender = ({ target: { value } }: RadioChangeEvent) => {
         setGender(value);
-      };
+    };
 
     const onSearchClick = () => {
         props.callBack(buildQuerParams())

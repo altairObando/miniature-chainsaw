@@ -3,6 +3,7 @@ import { PageHeader } from '../../Components/Navigation/PageHeader';
 import { UserOutlined, SaveFilled, UndoOutlined, BookOutlined, PaperClipOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { CustomTabs } from "../../Components/Common/CustomTabs";
+import { ContactForm } from "../../Components/Contact/ContactForm";
 export const AddOrUpdate: React.FC = ()=> {
     return <>
     <PageHeader 
@@ -30,7 +31,7 @@ export const AddOrUpdate: React.FC = ()=> {
         { 
             key : '1',
             label: <span> <BookOutlined /> Basic Information </span>,
-            children: <h1> Formulario 1</h1>,
+            children: <ContactForm />,
         },
         { 
             key : '2',

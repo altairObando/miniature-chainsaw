@@ -1,63 +1,46 @@
 ﻿using BL.DTO;
 using BL.Interfaces;
 using BL.Repositories;
-using DAL.Contacts;
+using DAL;
+using DAL.Catalogs;
 using System.Data;
 
 namespace BL.Services
 {
-    public class AddressService : IServices
+    internal class MaritalService : IServices
     {
-        #region Private properties, Constructor and implementations
         private readonly DAL.Context _cntx;
-        private readonly AddressRepository _repo;
+        private readonly CatalogRepository<MaritalStatus> _repo;
         private readonly IDbConnection _conn;
         public IServiceRequest Request { get; set; }
         public ServiceResponse Response { get; set; }
 
-        public AddressService(IServiceRequest request, DAL.Context context, IDbConnection connection)
+        public MaritalService(IServiceRequest request, Context context, IDbConnection connection, string name)
         {
-            _cntx = context;
+
             _conn = connection;
-            _repo = new AddressRepository(context, _conn);
+            _cntx = context;
+            _repo = new CatalogRepository<MaritalStatus>(_cntx, _conn, name);
             Request = request;
             Response = new ServiceResponse() { Input = request, Output = new OutputResponse() };
         }
-        #endregion
-        /// <inheritdoc/>
-        public async Task Get()
-        {
-            var data = await _repo.GetAll(Request.Fields ?? string.Empty, Request.Filter ?? string.Empty, nameof(Address));
-            AddResult(data);
-            return;
-        }
-        /// <inheritdoc/>
+
+
         public async Task Add()
         {
             if (string.IsNullOrEmpty(Request.Entity))
-                throw new NullReferenceException(nameof(Contact));
+                throw new NullReferenceException(nameof(MaritalStatus));
+
             var entity = _repo.GetEntityFromJson(Request.Entity);
             var newEntity = await _repo.Add(entity);
 
             Response.Output.Results.Add(newEntity);
         }
-        /// <inheritdoc/>
-        public async Task Update()
-        {
-            if (string.IsNullOrEmpty(Request.Entity))
-                throw new NullReferenceException(nameof(Contact));
 
-            var entity = _repo.GetEntityFromJson(Request.Entity);
-            var newEntity = await _repo.Update(entity);
-
-            Response.Output.StatusDescription = "Updated";
-            Response.Output.Results.Add(newEntity);
-        }
-        /// <inheritdoc/>
         public async Task Delete()
         {
             if (string.IsNullOrEmpty(Request.Entity))
-                throw new NullReferenceException(nameof(Address));
+                throw new NullReferenceException(nameof(MaritalStatus));
 
             var entity = _repo.GetEntityFromJson(Request.Entity);
             var newEntity = await _repo.Delete(entity);
@@ -65,7 +48,7 @@ namespace BL.Services
             Response.Output.StatusDescription = "Removed";
             Response.Output.Results.Add(newEntity);
         }
-        /// <inheritdoc/>
+
         public async Task Execute()
         {
             try
@@ -86,11 +69,29 @@ namespace BL.Services
 
             }
         }
-        /// <inheritdoc/>
-        public void AddResult(IEnumerable<Address> data)
+
+        public async Task Get()
         {
-            foreach (var contact in data)
-                Response.Output.Results.Add(contact);
+            var data = await _repo.GetAll(Request.Fields ?? string.Empty, Request.Filter ?? string.Empty);
+            AddResult(data);
+            return;
+        }
+
+        public async Task Update()
+        {
+            if (string.IsNullOrEmpty(Request.Entity))
+                throw new NullReferenceException(nameof(MaritalStatus));
+
+            var entity = _repo.GetEntityFromJson(Request.Entity);
+            var newEntity = await _repo.Update(entity);
+
+            Response.Output.StatusDescription = "Updated";
+            Response.Output.Results.Add(newEntity);
+        }
+        public void AddResult(IEnumerable<MaritalStatus> data)
+        {
+            foreach (var item in data)
+                Response.Output.Results.Add(item);
         }
     }
 }

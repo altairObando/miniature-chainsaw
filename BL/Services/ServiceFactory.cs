@@ -36,6 +36,7 @@ namespace BL.Services
                     ServicesEnum.Country => new CountryService(request, context, connection, nameof(Country)),
                     ServicesEnum.Region  => new RegionService(request, context, connection, nameof(Region)),
                     ServicesEnum.State   => new StateService(request, context, connection, nameof(State)),
+                    ServicesEnum.MaritalStatus => new StateService(request, context, connection, nameof(MaritalStatus)),
                     _ => null
                 };
             }

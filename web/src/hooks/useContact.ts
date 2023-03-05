@@ -16,7 +16,7 @@ export const useContact = ( optionProps : ISearch )  => {
         fields: optionProps.fields
     }
 
-    const options ={
+    const options = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

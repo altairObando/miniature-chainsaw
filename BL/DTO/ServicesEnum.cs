@@ -14,5 +14,6 @@
         public const string Country = "CountrySrv";
         public const string Region  = "RegionSrv";
         public const string State   = "StateSrv";
+        public const string MaritalStatus = "MaritalStatusSrv";
     }
 }

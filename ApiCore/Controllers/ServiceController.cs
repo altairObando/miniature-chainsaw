@@ -28,9 +28,16 @@ namespace ApiCore.Controllers
         {
             try
             {
-                _logger.Log(LogLevel.Information, message: Newtonsoft.Json.JsonConvert.SerializeObject(request));
+                //_logger.Log(LogLevel.Information, message: Newtonsoft.Json.JsonConvert.SerializeObject(request));
                 var result = await serviceFactory.ExecuteRequest(request);
-                //_logger.Log(LogLevel.Information, message: Newtonsoft.Json.JsonConvert.SerializeObject(result));
+                _logger.Log(LogLevel.Information, message: Newtonsoft.Json.JsonConvert.SerializeObject(new { 
+                    result.Input,
+                    Output = new { 
+                        result.Output.Status,
+                        result.Output.StatusDescription,
+                        result.Output.Results.Count
+                    }  
+                }));
                 return result;
             }
             catch (Exception ex)

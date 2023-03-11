@@ -27,6 +27,8 @@ export const CustomDatePicker: React.FC<ICustomDatePicker> = ({ callBack, itemLa
     const [ month, setMonth ] = useState<number | undefined>();
     const [ day  , setDay   ] = useState<number | undefined>();    
     const [ dayOptions, setOptions] = useState<Array<ISelectRecord>>([]);
+    const form = Form.useFormInstance();
+    const customValue = Form.useWatch(itemName, form);
 
     useEffect(()=> {
         const date = new Date(year?? 0,(month ?? 0) + 1, 0 );
@@ -34,21 +36,28 @@ export const CustomDatePicker: React.FC<ICustomDatePicker> = ({ callBack, itemLa
         setOptions( newOptions );
         if(day && day > date.getDate())
           setDay(date.getDate());
-    }, [ year, month ])
+    }, [ month ]);
 
-    useEffect(() => {
-       
-        if( typeof callBack == 'function')
-            callBack({ year, month, day });
 
-    }, [day])
+    useEffect(()=>{
+      try{
+        if(typeof customValue === 'undefined')
+          return;
+        const fecha = new Date(customValue);
+        setYear(fecha.getFullYear());
+        setMonth(fecha.getMonth())
+        setDay(fecha.getDate());
+        console.log('changed birth')
+      }catch(error){
+        console.log(error)
+      }     
+    },[ customValue ])
 
     const filterOption = (input: any, option: any): boolean => typeof option==='undefined' || option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     
   return <Form.Item name={ itemName } label={ itemLabel }>
     <Space style={ styles.spaceContainer }>
       <Select 
-        showSearch 
         id='yearSelect' 
         allowClear 
         style={ styles.selectChild }
@@ -73,8 +82,12 @@ export const CustomDatePicker: React.FC<ICustomDatePicker> = ({ callBack, itemLa
         allowClear 
         style={ styles.selectChild }
         options={ dayOptions        } 
-        value={ day   } 
-        onChange={ (value: number) => setDay  ( value )} 
+        value={ day } 
+        onChange={ (value: number) => {
+          setDay  ( value );
+          const fecha = new Date(Number(year), Number(month), Number(value));
+          form.setFieldsValue({[itemName]: fecha });
+        }} 
         filterOption={ filterOption } 
         />
     </Space>

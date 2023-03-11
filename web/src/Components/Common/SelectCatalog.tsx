@@ -11,7 +11,6 @@ export const SelectCatalog =(props: ISelectCatalog ) => {
     }
 
     const [ options, isLoading ] = useCatalog({ catalog: `${props.catalog}CatalogSrv`, fields:'*', filter: props.filterValues });
-    console.log('rendered');
 
   return <Item name={ props.itemName } label={ props.itemLabel } rules={ props.rules }>
     <Select 

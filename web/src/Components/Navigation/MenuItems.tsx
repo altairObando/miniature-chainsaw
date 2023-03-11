@@ -14,7 +14,7 @@ const buildItem = ( label: React.ReactNode, key?: React.Key | null, icon?: React
 export const MenuItems : MenuItem[] = [
     buildItem('Contacts', 'contactsMenu', <UserOutlined />, [
         buildItem(<Link to='Contacts'> Contact List </Link>, 'menuContactsIndex', <SearchOutlined /> ),
-        buildItem(<Link to='Contacts/addOrUpdate'> New Contact </Link>, 'menuContactsForm', <UserAddOutlined/>)
+        buildItem(<Link to='Contacts/addOrUpdate/0'> New Contact </Link>, 'menuContactsForm', <UserAddOutlined/>)
     ]),
     buildItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
         buildItem('Option5', '5'),

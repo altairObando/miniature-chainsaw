@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ISearch } from "../Interfaces/Common/ISearchable";
 import { IContactDto } from "../Interfaces/Contacts/IContactDto";
 import { IServerResponse } from "../Interfaces/Server/IServerResponse";
@@ -34,9 +34,30 @@ export const useContact = ( optionProps : ISearch )  => {
             setContact( data.output.results )
             setIsLoading( false )
         })
-    }, [ optionProps ])
-
-
-
+    }, [ optionProps.filter, optionProps.fields ])
     return [ contact, isLoading ] as const;
+}
+
+export const saveContact = async(data: IContactDto ) =>{
+    const operation = data.id > 0 ? 'UPDATE' : 'ADD';
+    const request = {
+        operation,
+        command: CONTACTS,
+        Entity: JSON.stringify(data)
+    }
+    const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+    }
+
+    try {
+        const response = await fetch( Config.APISERVER, options );
+        const result   = await response.json();
+        return result; 
+    } catch (error) {
+        return error;
+    }
 }

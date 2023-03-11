@@ -13,13 +13,13 @@ const styles = {
 export const PageHeader: React.FC<IPageHeader> = (props) =>{
     return <Card style={ styles.container }>
         <Row>
-            <Col span={ 1 }>
+            <Col span={ 4 }>
                 <Space>
                     <Avatar icon={  props.icon ||  <AntDesignOutlined /> } size="large"  />
                     <span className='titulo'><strong> { props.title } </strong> </span>
                 </Space>
             </Col>
-            <Col span={8}>
+            <Col span={5}>
                 <span className='titulo'><strong> { props.subTitle } </strong> </span>
             </Col>
             <Col span={8}>

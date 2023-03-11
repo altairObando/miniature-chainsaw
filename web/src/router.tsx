@@ -3,7 +3,6 @@ import App from './App';
 import React from 'react';
 // Contact import 
 import { Index as ContactIndex } from './Pages/Contacts/Index';
-import { ContactForm } from './Components/Contact/ContactForm';
 import { AddOrUpdate } from './Pages/Contacts/AddOrUpdate';
 
 
@@ -25,7 +24,7 @@ export const Router = createBrowserRouter([
                 element: <ContactIndex />,
             },
             {
-                path: 'Contacts/addOrUpdate',
+                path: 'Contacts/addOrUpdate/:contactId',
                 element: <AddOrUpdate />
             }
         ]

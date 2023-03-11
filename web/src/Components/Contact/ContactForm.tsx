@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
-import { Button, Col, Form, Input, Radio, Row } from 'antd';
+import React, { useEffect } from 'react';
+import { Col, Form, Input, Radio, Row } from 'antd';
 import { CustomDatePicker } from '../Common/CustomDatePicker';
 import { SelectCatalog } from '../Common/SelectCatalog';
+import { IContactDto } from '../../Interfaces/Contacts/IContactDto';
 
 const options = [
     { label: 'Male', value: 'M' },
     { label: 'Female', value: 'F' },
 ];
 
-declare global{
-    interface Window {
-        contactForm : any
-    }
-}
 
-
-export const ContactForm: React.FC =()=>{
+export const ContactForm: React.FC<IContactDto | undefined> =( props )=>{
     const [ form ] = Form.useForm();
     window.contactForm = form;
     const { Item } = Form;
@@ -30,10 +25,10 @@ export const ContactForm: React.FC =()=>{
     const onGenderChange =(value: string)=>{
         form.setFieldsValue({ gender: value })
     }
-    const onSaveChanges=()=>{
-        console.log(form.getFieldsValue());
-        form.validateFields();
-    }
+    
+    useEffect(()=>{
+        form.setFieldsValue({ ...props })        
+    },[ props ])    
     
     return <>
         <Form
@@ -42,11 +37,7 @@ export const ContactForm: React.FC =()=>{
             form={ form }
             layout='vertical'
             labelCol={{ span: 12 }}
-            wrapperCol={{ span: 22  }}
-            initialValues={{ 
-                id: 0, 
-                nationality:'NI'
-            }}>
+            wrapperCol={{ span: 22  }}>
             <Row>
                 <Item name='id'>
                     <Input type='hidden'/>
@@ -61,8 +52,8 @@ export const ContactForm: React.FC =()=>{
                     <Item name='middleName' label='Middle Name'>
                         <Input id='middleName' />
                     </Item>
-                    <Item label='Last Name'>
-                        <Input name='surname1' id='surname1'/>
+                    <Item label='Last Name' name='surname1'>
+                        <Input id='surname1'/>
                     </Item>
                     <Item name='surname2' label='Second Last Name' >
                         <Input id='surname2'/>
@@ -78,7 +69,7 @@ export const ContactForm: React.FC =()=>{
                     />
                     <SelectCatalog 
                         catalog='MaritalStatus'
-                        filterValues='active=1 and x-1ss'
+                        filterValues='active=1'
                         itemName='maritalStatus'
                         itemLabel='Marital Status'
                     />
@@ -99,9 +90,6 @@ export const ContactForm: React.FC =()=>{
                         callBack={ onBirthChange } />  
                 </Col>
             </Row>
-            <Button onClick={ onSaveChanges }>
-                Save Changes
-            </Button>
         </Form>
     </>
 }

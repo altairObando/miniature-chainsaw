@@ -37,7 +37,7 @@ const CustomLayout: React.FC<ITheme> = ({ theme, setTheme }) => {
           collapsed={ collapsed } 
           setCollapsed={ setCollapsed }
           theme={ theme } />
-        <Content style={{ marginLeft: contentMargin, minHeight: '100vh'  }}>
+        <Content style={{ marginLeft: contentMargin, minHeight: '80vh'  }}>
           <Outlet />
         </Content>
       </Layout>

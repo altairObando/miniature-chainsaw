@@ -12,13 +12,13 @@ const listColumns : ColumnsType<IContactDto> = [
         key: 'id',
         title: 'Id',
         dataIndex: 'id',
-        render: (id) => <a> { id }</a>
+        render: (id) => <Link to={ `AddOrUpdate/${ id }` }> { id }</Link>
     },
     {
         key: 'nif',
         title: 'NIF',
         dataIndex: 'nif',
-        render: (id) => <a> { id }</a>
+        render: (nif,record) => <Link to={ `AddOrUpdate/${ record.id }` }> { nif }</Link>
     },
     {
         key: 'name',

@@ -1,11 +1,13 @@
 using BL.DTO;
 using BL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCore.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ServiceController : ControllerBase
     {
         private readonly IServiceFactory serviceFactory;
@@ -18,6 +20,7 @@ namespace ApiCore.Controllers
             _logger.BeginScope($"");
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Get()
         {
             _logger.Log(LogLevel.Information, message: $"Connected");

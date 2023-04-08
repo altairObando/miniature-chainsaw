@@ -1,4 +1,5 @@
 ﻿using DAL.Catalogs;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL
@@ -6,7 +7,7 @@ namespace DAL
     /// <summary>
     ///     Core database context
     /// </summary>
-    public class Context: DbContext
+    public class Context: IdentityDbContext<Security.User>
     {
         public string ConnectionString { get; set; }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MenuTheme, message } from 'antd';
 import CustomLayout from './Components/Navigation/CustomLayout';
+import { GlobalProvider } from './Context/UserContext';
 
 declare global{
   interface Window {
@@ -21,9 +22,11 @@ function App() {
 
   return <>
   { contextHolder }
+   <GlobalProvider>
     <CustomLayout 
-      theme={ theme } 
-      setTheme={ setTheme} />
+        theme={ theme } 
+        setTheme={ setTheme} />
+   </GlobalProvider>
   </>
 }
 

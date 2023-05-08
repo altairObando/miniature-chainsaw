@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
 
 namespace ApiCore.Controllers
 {
@@ -36,7 +37,8 @@ namespace ApiCore.Controllers
             }
             catch (Exception ex)
             {
-                return Results.BadRequest(ex);
+                Results.StatusCode(403);
+                return Results.Unauthorized();
             }
         }
         [HttpPut]
@@ -45,6 +47,25 @@ namespace ApiCore.Controllers
             // Validar existencia del usuario
             var response = await new CustomAuthManager(_userManager).ChangePassword(userData);
             return response.Succeeded ? Results.Ok(new { message = "Password updated" }) : Results.BadRequest(response.Errors.Single());
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<bool> CreateSuperUser()
+        {
+            if (await _userManager.FindByNameAsync("altair") != null)
+                return true;
+
+            var created = await _userManager.CreateAsync(new User { Email ="pxnfilo@gmail.com", UserName="altair", PhoneNumber="50578553482", PhoneNumberConfirmed = true });
+            if (!created.Succeeded)
+                return false;
+            var user = await _userManager.FindByNameAsync("altair");
+            var result = await _userManager.AddPasswordAsync(user, "#Gyn20201218*#");
+            if(!result.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+                return false;
+            }
+            return true;
         }
     }
 }

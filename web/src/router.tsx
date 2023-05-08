@@ -4,6 +4,8 @@ import React from 'react';
 // Contact import 
 import { Index as ContactIndex } from './Pages/Contacts/Index';
 import { AddOrUpdate } from './Pages/Contacts/AddOrUpdate';
+import { Login } from './Pages/Auth/Login';
+import { LoginLoader } from './Components/Common/LoginLoader';
 
 
 const TestPage : React.FC = ()=>{
@@ -18,6 +20,7 @@ export const Router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
+        loader: LoginLoader,
         children: [
             {
                 path: 'Contacts',
@@ -27,6 +30,9 @@ export const Router = createBrowserRouter([
                 path: 'Contacts/addOrUpdate/:contactId',
                 element: <AddOrUpdate />
             }
-        ]
-    },
+        ],
+    },{
+        path: '/Login',
+        element: <Login />
+    }
 ])

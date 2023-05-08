@@ -46,7 +46,8 @@ builder.Services
 const string All = "*";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(All, pol => { pol.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
+    options.AddPolicy(All, 
+        builder => { builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod(); });
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,4 +1,4 @@
 export const Config = {
-    APISERVER: 'http://coresample.somee.com/api/Service',
-    APILOGIN: 'http://coresample.somee.com/api/Authentication',
+    APISERVER: 'https://coresample.somee.com/api/Service',
+    APILOGIN: 'https://coresample.somee.com/api/Authentication',
 }

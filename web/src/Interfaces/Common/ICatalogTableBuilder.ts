@@ -1,5 +1,6 @@
 import { ColumnSettings } from "handsontable/settings";
 export interface ICatalogTableBuilder {
     colHeaders: Array<string>;
-    columns: Array<ColumnSettings>
+    columns: Array<ColumnSettings>;    
+    schema?: any;
 }

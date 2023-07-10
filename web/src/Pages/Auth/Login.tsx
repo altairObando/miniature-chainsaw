@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input, Layout } from 'antd';
+import { Button, Checkbox, Form, Input, Layout, Spin } from 'antd';
 import { UserOutlined, KeyOutlined, DeploymentUnitOutlined } from '@ant-design/icons';
 import { useLogin } from '../../hooks/useLogin';
-import { redirect } from 'react-router-dom';
 const loginStyle : React.CSSProperties ={
     display:'flex', 
     flexDirection:'row', 
@@ -15,14 +14,17 @@ const loginStyle : React.CSSProperties ={
 
 export const Login =()=>{
     const [ form ]  = Form.useForm();
+    const [ isLoading, setIsLoading ] = React.useState(false);
     // Clear previous token
-    sessionStorage.clear();
-    localStorage.clear();
+    //sessionStorage.clear();
+    //localStorage.clear();
     const handleLogin = async ( event: any )=>{
+      setIsLoading(true)
       event.preventDefault();
       const { ok, token } = await useLogin( form.getFieldsValue() )
       if(!ok){
         window.showError('User/password didnt match');
+        setIsLoading(false);
         return;
       }
       // Store Values
@@ -30,7 +32,8 @@ export const Login =()=>{
         sessionStorage.setItem('coreToken', token??'')
       }else
        localStorage.setItem('coreToken', token??'');
-       window.location.href = window.location.href.replace('Login','')
+      window.location.href = window.location.href.replace('Login','')
+      setIsLoading(false)
     }
 
     return <Layout style={ loginStyle } >      
@@ -49,7 +52,9 @@ export const Login =()=>{
           <Checkbox checked={ true }> Remember me</Checkbox>
           <a href='#'> Forgot password</a>
         </Form.Item>
-        <Button type='primary' htmlType='submit' style={{ width: '100%' }} >
+        <Button type='primary' htmlType='submit' style={{ width: '100%' }} disabled={ isLoading } >
+          { isLoading && <Spin spinning={true} />} 
+          {' '}
           Log in
         </Button>
       </Form>

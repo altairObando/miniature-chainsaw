@@ -35,7 +35,7 @@ namespace ApiCore.Controllers
                     AccessToken = jwt
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Results.StatusCode(403);
                 return Results.Unauthorized();

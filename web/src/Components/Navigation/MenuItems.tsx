@@ -1,7 +1,7 @@
 import React from 'react';
 import type { MenuProps  } from 'antd';
 import { Link } from 'react-router-dom';
-import { AppstoreOutlined, UserOutlined, UserAddOutlined, SearchOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, UserOutlined, UserAddOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
 type MenuItem = Required<MenuProps>['items'][number];
 
 
@@ -24,7 +24,7 @@ export const MenuItems : MenuItem[] = [
         buildItem('Option9', '9'),
     ]),
     buildItem('Navigation Tree', 'sub3', <AppstoreOutlined />, [
-        buildItem('Option10', '10'),
+        buildItem(<Link to='Config'> Catalogs </Link>, 'configIndex', <SettingOutlined />),
         buildItem('Option11', '11'),
         buildItem('Option12', '12'),
     ])
